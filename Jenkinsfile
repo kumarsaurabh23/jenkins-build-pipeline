@@ -24,7 +24,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'mvn clean compile'
+                sh 'mvn build'
             }
         }
         stage('Test') {
@@ -34,7 +34,7 @@ pipeline {
               }
             }
             steps {
-                sh 'mvn clean test'
+                sh 'mvn test'
             }
         }
         stage('Archive') {
