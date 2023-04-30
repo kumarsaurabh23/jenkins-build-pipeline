@@ -1,30 +1,48 @@
 // pipeline {
-//     agent { docker { image 'maven:3.9.0-eclipse-temurin-11' } }
+//     agent any
+
 //     stages {
-//         stage('build') {
+//         stage('Build') {
 //             steps {
-//                 sh 'mvn --version'
+//                 echo 'Building..'
+//             }
+//         }
+//         stage('Test') {
+//             steps {
+//                 echo 'Testing..'
+//             }
+//         }
+//         stage('Deploy') {
+//             steps {
+//                 echo 'Deploying....'
 //             }
 //         }
 //     }
 // }
 pipeline {
-    agent any
-
+    agent { docker { image 'maven:3.9.0-eclipse-temurin-11' } }
     stages {
         stage('Build') {
             steps {
-                echo 'Building..'
+                sh 'mvn clean compile'
             }
         }
         stage('Test') {
+            when {
+              expression {
+                currentBuild.result == null || currentBuild.result == 'SUCCESS' 
+              }
             steps {
-                echo 'Testing..'
+                sh 'mvn clean test'
             }
         }
-        stage('Deploy') {
+        state('Archive') {
+            when {
+              expression {
+                currentBuild.result == null || currentBuild.result == 'SUCCESS' 
+              }
             steps {
-                echo 'Deploying....'
+                archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
             }
         }
     }
