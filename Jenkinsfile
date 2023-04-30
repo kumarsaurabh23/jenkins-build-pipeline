@@ -32,6 +32,7 @@ pipeline {
               expression {
                 currentBuild.result == null || currentBuild.result == 'SUCCESS' 
               }
+            }
             steps {
                 sh 'mvn clean test'
             }
@@ -41,6 +42,7 @@ pipeline {
               expression {
                 currentBuild.result == null || currentBuild.result == 'SUCCESS' 
               }
+            }
             steps {
                 archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
             }
