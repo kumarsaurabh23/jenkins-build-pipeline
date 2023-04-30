@@ -37,7 +37,7 @@ pipeline {
                 sh 'mvn clean test'
             }
         }
-        state('Archive') {
+        stage('Archive') {
             when {
               expression {
                 currentBuild.result == null || currentBuild.result == 'SUCCESS' 
