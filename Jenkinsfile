@@ -35,7 +35,7 @@ pipeline {
             }
             steps {
                 sh 'mvn test'
-                junit '**/target/*.xml'
+//                 junit '**/target/*.xml'
             }
         }
         stage('Archive') {
