@@ -30,18 +30,23 @@ pipeline {
         stage('Test') {
             when {
               expression {
-                isBuildSuccessful() == true 
+                isStageSuccessful() == true 
               }
             }
             steps {
                 sh 'mvn test'
 //                 junit '**/target/*.xml'
             }
+            post {
+                always {
+                    junit 'target/surefire-reports/*.xml' 
+                }
+            }
         }
         stage('Archive') {
             when {
               expression {
-                isBuildSuccessful() == true 
+                isStageSuccessful() == true 
               }
             }
             steps {
@@ -51,6 +56,6 @@ pipeline {
     }
 }
 
-Boolean isBuildSuccessful() {
+Boolean isStageSuccessful() {
     return currentBuild.result == null || currentBuild.result == 'SUCCESS'
 }
