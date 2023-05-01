@@ -30,7 +30,7 @@ pipeline {
         stage('Test') {
             when {
               expression {
-                currentBuild.result == null || currentBuild.result == 'SUCCESS' 
+                isBuildSuccessful() == true 
               }
             }
             steps {
@@ -41,7 +41,7 @@ pipeline {
         stage('Archive') {
             when {
               expression {
-                currentBuild.result == null || currentBuild.result == 'SUCCESS' 
+                isBuildSuccessful() == true 
               }
             }
             steps {
@@ -49,4 +49,8 @@ pipeline {
             }
         }
     }
+}
+
+Boolean isBuildSuccessful() {
+    return currentBuild.result == null || currentBuild.result == 'SUCCESS'
 }
